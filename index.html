@@ -192,13 +192,28 @@ select          { cursor: pointer; }
 }
 .hero-bg {
   position: absolute; inset: 0;
-  background-image: url('https://lh3.googleusercontent.com/gps-cs-s/APNQkAEF-x2V-OfwrgGGdPitJUgCw8iQCuUfKts0DQ1DRQruEDIs0garMq_vwu-U7AmBKLRlRAj0xUlkqjEksDrTp7j08-flIIVRToPeuIGPQKtAL0nn_3y3CTWtc9McDmfZd51WKEbzPET03Ivm=s680-w680-h510-rw');
-  background-size: cover; background-position: center;
-  transform: scale(1.08); will-change: transform;
+  background: #0f0e0e;
+}
+.hero-geo {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.hero-geo svg { width: 100%; height: 100%; position: absolute; inset: 0; }
+.hero-glow {
+  position: absolute; top: 42%; left: 50%; transform: translate(-50%,-50%);
+  width: 80vw; max-width: 800px; height: 60vh;
+  background: radial-gradient(ellipse at center, rgba(185,172,110,0.09) 0%, transparent 68%);
+  pointer-events: none;
 }
 .hero-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(140deg, rgba(185,172,110,0.18) 0%, rgba(28,28,28,0.72) 100%);
+  background: linear-gradient(180deg, rgba(15,14,14,0.10) 0%, rgba(15,14,14,0.50) 100%);
+}
+@keyframes lineDraw {
+  from { stroke-dashoffset: 1; }
+  to   { stroke-dashoffset: 0; }
+}
+@keyframes geoFade {
+  from { opacity: 0; } to { opacity: 1; }
 }
 .hero-content {
   position: relative; z-index: 2; text-align: center;
@@ -211,12 +226,22 @@ select          { cursor: pointer; }
   opacity: 0; transform: translateY(20px);
   animation: fadeUp 0.8s ease forwards 0.3s;
 }
+.hero-brand {
+  font-family: var(--ff-heading);
+  font-size: clamp(38px, 6.5vw, 86px);
+  font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--clr-white); line-height: 1.05; margin-bottom: 14px;
+  opacity: 0; transform: translateY(28px);
+  animation: fadeUp 0.85s ease forwards 0.4s;
+}
+.hero-brand span { color: var(--clr-primary); }
 .hero-title {
   font-family: var(--ff-heading);
-  font-size: clamp(36px, 7vw, 82px);
-  font-weight: 400; color: var(--clr-white); line-height: 1.08;
+  font-size: clamp(18px, 2.8vw, 34px);
+  font-weight: 300; color: rgba(255,255,255,0.72); line-height: 1.45;
   margin-bottom: 16px; opacity: 0; transform: translateY(30px);
-  animation: fadeUp 0.9s ease forwards 0.5s;
+  animation: fadeUp 0.9s ease forwards 0.55s;
+  font-style: italic; letter-spacing: 0.01em;
 }
 .hero-subtitle {
   font-family: var(--ff-body); font-size: clamp(13px, 1.6vw, 17px);
@@ -500,12 +525,13 @@ section { padding: 96px 60px; }
 #contact { background: rgba(110,110,110,0.05); }
 .contact-layout { display: flex; flex-direction: column; gap: 50px; }
 /* Info cards row */
-.contact-info-cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; }
+.contact-info-cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; align-items: stretch; }
 .contact-info-card {
   background: var(--clr-white); border-radius: var(--radius);
-  border: 1px solid rgba(185,172,110,0.18); padding: 26px 22px;
-  display: flex; flex-direction: column; gap: 12px;
+  border: 1px solid rgba(185,172,110,0.18); padding: 24px 20px;
+  display: flex; flex-direction: column; gap: 10px;
   transition: box-shadow var(--transition), transform var(--transition);
+  box-sizing: border-box;
 }
 .contact-info-card:hover { box-shadow: 0 8px 28px rgba(185,172,110,0.18); transform: translateY(-3px); }
 .contact-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(185,172,110,0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -514,13 +540,13 @@ section { padding: 96px 60px; }
 /* Social section */
 .social-section { }
 .social-section-title { font-family: var(--ff-label); font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--clr-muted); margin-bottom: 16px; }
-.social-links-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 14px; }
+.social-links-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 14px; align-items: stretch; }
 .social-tile {
   background: var(--clr-white); border-radius: var(--radius);
   border: 1px solid rgba(185,172,110,0.18);
   padding: 20px 12px 16px; display: flex; flex-direction: column;
-  align-items: center; gap: 10px; text-decoration: none;
-  transition: all var(--transition); cursor: pointer;
+  align-items: center; justify-content: center; gap: 10px; text-decoration: none;
+  transition: all var(--transition); cursor: pointer; box-sizing: border-box;
 }
 .social-tile:hover { background: var(--clr-dark); border-color: var(--clr-dark); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(28,28,28,0.18); }
 .social-tile:hover svg * { stroke: var(--clr-primary) !important; }
@@ -557,7 +583,7 @@ footer { background: var(--clr-dark); padding: 66px 60px 32px; border-top: 3px s
   .masonry-grid { columns: 2; }
   .footer-grid  { grid-template-columns: 1fr 1fr; gap: 40px; }
   .footer-grid > :first-child { grid-column: span 2; }
-  .contact-info-cards { grid-template-columns: repeat(2,1fr); }
+  .contact-info-cards { grid-template-columns: repeat(4,1fr); }
   .social-links-grid  { grid-template-columns: repeat(3,1fr); }
   /* Stats: 2×2 on tablet */
   .stats-row { grid-template-columns: repeat(2,1fr); }
@@ -578,7 +604,8 @@ footer { background: var(--clr-dark); padding: 66px 60px 32px; border-top: 3px s
   .hamburger { display: flex; }
 
   /* Hero */
-  .hero-title { font-size: clamp(30px, 9vw, 46px); }
+  .hero-brand { font-size: clamp(32px, 7vw, 58px); }
+  .hero-title { font-size: clamp(15px, 2.4vw, 24px); }
   .hero-btns  { gap: 10px; }
 
   /* About */
@@ -608,9 +635,11 @@ footer { background: var(--clr-dark); padding: 66px 60px 32px; border-top: 3px s
   .quote-mark        { font-size: 68px; }
   .testimonial-text  { font-size: 16px; }
 
-  /* Contact */
+  /* Contact — 2 cols each so all boxes are equal width */
+  .contact-layout     { gap: 32px; }
   .contact-info-cards { grid-template-columns: repeat(2,1fr); }
-  .social-links-grid  { grid-template-columns: repeat(3,1fr); }
+  .social-links-grid  { grid-template-columns: repeat(2,1fr); gap: 12px; }
+  .social-tile        { padding: 18px 10px 14px; }
 
   /* Footer */
   .footer-grid { grid-template-columns: 1fr; gap: 28px; }
@@ -627,13 +656,14 @@ footer { background: var(--clr-dark); padding: 66px 60px 32px; border-top: 3px s
   footer  { padding: 38px 15px 20px; }
 
   /* Navbar trim */
-  .nav-logo .logo-text .lt-main { font-size: 13px; letter-spacing: 0.09em; }
-  .nav-logo .logo-text .lt-sub  { display: none; }
+  .nav-logo .logo-text .lt-main { font-size: 13px; letter-spacing: 0.07em; }
+  .nav-logo .logo-text .lt-sub  { font-size: 7px; letter-spacing: 0.22em; }
   .nav-logo svg { width: 28px; height: 28px; }
 
   /* Hero */
-  .hero-title    { font-size: clamp(26px, 10vw, 38px); line-height: 1.12; }
-  .hero-subtitle { font-size: 12.5px; }
+  .hero-brand    { font-size: clamp(28px, 9vw, 44px); letter-spacing: 0.04em; }
+  .hero-title    { font-size: clamp(14px, 4vw, 20px); }
+  .hero-subtitle { font-size: 12px; }
   .hero-btns     { flex-direction: column; align-items: center; gap: 9px; }
   .btn-primary,
   .btn-outline   { width: 100%; max-width: 270px; text-align: center; padding: 13px 20px; }
@@ -654,8 +684,11 @@ footer { background: var(--clr-dark); padding: 66px 60px 32px; border-top: 3px s
   .service-name  { font-size: 22px; }
 
   /* Contact */
-  .contact-info-cards { grid-template-columns: 1fr 1fr; }
-  .social-links-grid  { grid-template-columns: repeat(3,1fr); }
+  .contact-layout     { gap: 26px; }
+  .contact-info-cards { grid-template-columns: repeat(2,1fr); gap: 10px; }
+  .social-links-grid  { grid-template-columns: repeat(2,1fr); gap: 10px; }
+  .contact-info-card  { padding: 16px 14px; }
+  .social-tile        { padding: 14px 8px 12px; }
 
   /* Projects */
   .project-card:nth-child(n) .project-img-wrap { height: 205px; }
@@ -727,8 +760,8 @@ footer { background: var(--clr-dark); padding: 66px 60px 32px; border-top: 3px s
         <circle cx="30" cy="25" r="1.2" fill="#6e6e6e"/>
       </svg>
       <div class="logo-text">
-        <span class="lt-main">Space Frame</span>
-        <span class="lt-sub">Architects</span>
+        <span class="lt-main">Space Frame Architects</span>
+        <span class="lt-sub">Chennai · Est. 2015</span>
       </div>
     </a>
 
@@ -758,11 +791,232 @@ footer { background: var(--clr-dark); padding: 66px 60px 32px; border-top: 3px s
   <!-- ── HERO ─────────────────────────────────────────────────────── -->
   <section id="hero">
     <div class="hero-bg"></div>
+    <div class="hero-geo">
+      <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="dotgrid" width="60" height="60" patternUnits="userSpaceOnUse">
+            <circle cx="30" cy="30" r="1" fill="#b9ac6e"/>
+          </pattern>
+        </defs>
+
+        <!-- Dot grid fill -->
+        <rect width="1440" height="900" fill="url(#dotgrid)" opacity="0.28"/>
+
+        <!-- Radial construction lines from upper VP -->
+        <g stroke="#b9ac6e" stroke-width="0.5" opacity="0.07" fill="none">
+          <line x1="720" y1="-80" x2="-200" y2="1000"/>
+          <line x1="720" y1="-80" x2="160"  y2="1000"/>
+          <line x1="720" y1="-80" x2="520"  y2="1000"/>
+          <line x1="720" y1="-80" x2="720"  y2="1000"/>
+          <line x1="720" y1="-80" x2="920"  y2="1000"/>
+          <line x1="720" y1="-80" x2="1280" y2="1000"/>
+          <line x1="720" y1="-80" x2="1640" y2="1000"/>
+        </g>
+
+        <!-- Left: concentric arcs (compass / site-plan feel) -->
+        <g stroke="#b9ac6e" stroke-width="0.8" opacity="0.10" fill="none">
+          <circle cx="60" cy="920" r="560"/>
+          <circle cx="60" cy="920" r="400"/>
+          <circle cx="60" cy="920" r="260"/>
+          <circle cx="60" cy="920" r="140"/>
+        </g>
+
+        <!-- Left: floor-plan suggestion (lower-left quadrant) -->
+        <g stroke="#b9ac6e" stroke-width="0.7" opacity="0.18" fill="none">
+          <rect x="60" y="580" width="320" height="240"/>
+          <line x1="60"  y1="660" x2="380" y2="660"/>
+          <line x1="60"  y1="740" x2="380" y2="740"/>
+          <line x1="160" y1="580" x2="160" y2="820"/>
+          <line x1="260" y1="580" x2="260" y2="820"/>
+          <!-- Dimension line -->
+          <line x1="60" y1="558" x2="380" y2="558"/>
+          <line x1="60" y1="553" x2="60"  y2="563"/>
+          <line x1="380" y1="553" x2="380" y2="563"/>
+          <!-- Room label ticks -->
+          <line x1="38" y1="580" x2="38" y2="820"/>
+          <line x1="33" y1="580" x2="43" y2="580"/>
+          <line x1="33" y1="820" x2="43" y2="820"/>
+        </g>
+
+        <!-- ── 3D SPACE FRAME STRUCTURE (right half) ──
+             Formula: x=1000+IX*60−IZ*60, y=650+IX*34+IZ*34−IY*70
+             IX 0..3 (width), IZ 0..2 (depth), IY 0..4 (height) -->
+
+        <!-- Secondary grid: internal beams & diagonals, gray -->
+        <g stroke="#8a8a8a" stroke-width="0.7" opacity="0.22" fill="none">
+          <!-- Front-face (IZ=0) floor beams at IY=1,2,3 -->
+          <line x1="1000" y1="580" x2="1180" y2="682"/>
+          <line x1="1000" y1="510" x2="1180" y2="612"/>
+          <line x1="1000" y1="440" x2="1180" y2="542"/>
+          <!-- Front-face interior columns IX=1,2 -->
+          <line x1="1060" y1="684" x2="1060" y2="404"/>
+          <line x1="1120" y1="718" x2="1120" y2="438"/>
+          <!-- Right-face (IX=3) floor beams IY=1,2,3 -->
+          <line x1="1180" y1="682" x2="1060" y2="750"/>
+          <line x1="1180" y1="612" x2="1060" y2="680"/>
+          <line x1="1180" y1="542" x2="1060" y2="610"/>
+          <!-- Right-face interior depth column IZ=1 -->
+          <line x1="1120" y1="786" x2="1120" y2="506"/>
+          <!-- Top-face interior lines -->
+          <line x1="940"  y1="404" x2="1120" y2="506"/>
+          <line x1="880"  y1="438" x2="1060" y2="540"/>
+          <line x1="1060" y1="404" x2="940"  y2="472"/>
+          <line x1="1120" y1="438" x2="1000" y2="506"/>
+          <!-- X-bracing front face -->
+          <line x1="1000" y1="650" x2="1060" y2="614"/>
+          <line x1="1060" y1="684" x2="1000" y2="580"/>
+          <line x1="1060" y1="614" x2="1120" y2="578"/>
+          <line x1="1120" y1="648" x2="1060" y2="544"/>
+          <line x1="1120" y1="578" x2="1180" y2="542"/>
+          <line x1="1180" y1="612" x2="1120" y2="508"/>
+          <!-- X-bracing right face -->
+          <line x1="1180" y1="752" x2="1120" y2="716"/>
+          <line x1="1120" y1="786" x2="1180" y2="682"/>
+          <line x1="1180" y1="682" x2="1120" y2="646"/>
+          <line x1="1120" y1="716" x2="1180" y2="612"/>
+          <line x1="1180" y1="612" x2="1120" y2="576"/>
+          <line x1="1120" y1="646" x2="1180" y2="542"/>
+        </g>
+
+        <!-- Primary frame: all columns + beams, gold mid-opacity -->
+        <g stroke="#b9ac6e" stroke-width="1.1" opacity="0.38" fill="none">
+          <!-- 12 vertical columns -->
+          <line x1="1000" y1="650" x2="1000" y2="370"/>
+          <line x1="1060" y1="684" x2="1060" y2="404"/>
+          <line x1="1120" y1="718" x2="1120" y2="438"/>
+          <line x1="1180" y1="752" x2="1180" y2="472"/>
+          <line x1="940"  y1="684" x2="940"  y2="404"/>
+          <line x1="1000" y1="718" x2="1000" y2="438"/>
+          <line x1="1060" y1="752" x2="1060" y2="472"/>
+          <line x1="1120" y1="786" x2="1120" y2="506"/>
+          <line x1="880"  y1="718" x2="880"  y2="438"/>
+          <line x1="940"  y1="752" x2="940"  y2="472"/>
+          <line x1="1000" y1="786" x2="1000" y2="506"/>
+          <line x1="1060" y1="820" x2="1060" y2="540"/>
+          <!-- X-beams at IY=0 -->
+          <polyline points="1000,650 1060,684 1120,718 1180,752"/>
+          <polyline points="940,684  1000,718 1060,752 1120,786"/>
+          <polyline points="880,718  940,752  1000,786 1060,820"/>
+          <!-- X-beams IY=1 -->
+          <polyline points="1000,580 1060,614 1120,648 1180,682"/>
+          <polyline points="940,614  1000,648 1060,682 1120,716"/>
+          <polyline points="880,648  940,682  1000,716 1060,750"/>
+          <!-- X-beams IY=2 -->
+          <polyline points="1000,510 1060,544 1120,578 1180,612"/>
+          <polyline points="940,544  1000,578 1060,612 1120,646"/>
+          <polyline points="880,578  940,612  1000,646 1060,680"/>
+          <!-- X-beams IY=3 -->
+          <polyline points="1000,440 1060,474 1120,508 1180,542"/>
+          <polyline points="940,474  1000,508 1060,542 1120,576"/>
+          <polyline points="880,508  940,542  1000,576 1060,610"/>
+          <!-- X-beams IY=4 -->
+          <polyline points="1000,370 1060,404 1120,438 1180,472"/>
+          <polyline points="940,404  1000,438 1060,472 1120,506"/>
+          <polyline points="880,438  940,472  1000,506 1060,540"/>
+          <!-- Z-beams IY=0 -->
+          <polyline points="1000,650 940,684 880,718"/>
+          <polyline points="1060,684 1000,718 940,752"/>
+          <polyline points="1120,718 1060,752 1000,786"/>
+          <polyline points="1180,752 1120,786 1060,820"/>
+          <!-- Z-beams IY=1 -->
+          <polyline points="1000,580 940,614 880,648"/>
+          <polyline points="1060,614 1000,648 940,682"/>
+          <polyline points="1120,648 1060,682 1000,716"/>
+          <polyline points="1180,682 1120,716 1060,750"/>
+          <!-- Z-beams IY=2 -->
+          <polyline points="1000,510 940,544 880,578"/>
+          <polyline points="1060,544 1000,578 940,612"/>
+          <polyline points="1120,578 1060,612 1000,646"/>
+          <polyline points="1180,612 1120,646 1060,680"/>
+          <!-- Z-beams IY=3 -->
+          <polyline points="1000,440 940,474 880,508"/>
+          <polyline points="1060,474 1000,508 940,542"/>
+          <polyline points="1120,508 1060,542 1000,576"/>
+          <polyline points="1180,542 1120,576 1060,610"/>
+          <!-- Z-beams IY=4 -->
+          <polyline points="1000,370 940,404 880,438"/>
+          <polyline points="1060,404 1000,438 940,472"/>
+          <polyline points="1120,438 1060,472 1000,506"/>
+          <polyline points="1180,472 1120,506 1060,540"/>
+        </g>
+
+        <!-- Outer shell highlight (bright gold, heavier weight) -->
+        <g stroke="#b9ac6e" stroke-width="2" opacity="0.62" fill="none">
+          <!-- Front face outline -->
+          <path d="M 1000 650 L 1180 752 L 1180 472 L 1000 370 Z"/>
+          <!-- Right face outline -->
+          <path d="M 1180 752 L 1060 820 L 1060 540 L 1180 472"/>
+          <!-- Top face outline -->
+          <path d="M 1000 370 L 1180 472 L 1060 540 L 880 438 Z"/>
+        </g>
+
+        <!-- Animated key lines (draw in on load) -->
+        <g stroke="#b9ac6e" stroke-width="2.5" fill="none" opacity="0.88">
+          <line x1="1000" y1="650" x2="1000" y2="370"
+            style="stroke-dasharray:280;stroke-dashoffset:280;animation:lineDraw 1.4s ease 0.7s forwards"/>
+          <line x1="1000" y1="370" x2="1180" y2="472"
+            style="stroke-dasharray:210;stroke-dashoffset:210;animation:lineDraw 0.9s ease 1.2s forwards"/>
+          <line x1="1000" y1="370" x2="880"  y2="438"
+            style="stroke-dasharray:142;stroke-dashoffset:142;animation:lineDraw 0.7s ease 1.6s forwards"/>
+          <line x1="1000" y1="650" x2="1180" y2="752"
+            style="stroke-dasharray:210;stroke-dashoffset:210;animation:lineDraw 0.9s ease 0.9s forwards"/>
+        </g>
+
+        <!-- Vertex dots at key nodes -->
+        <g fill="#b9ac6e">
+          <circle cx="1000" cy="370" r="3.5" opacity="0.95"/>
+          <circle cx="1180" cy="472" r="3.5" opacity="0.90"/>
+          <circle cx="1060" cy="540" r="3"   opacity="0.85"/>
+          <circle cx="880"  cy="438" r="3"   opacity="0.85"/>
+          <circle cx="1000" cy="650" r="3"   opacity="0.80"/>
+          <circle cx="1180" cy="752" r="3"   opacity="0.75"/>
+          <circle cx="1060" cy="820" r="2.5" opacity="0.65"/>
+          <circle cx="880"  cy="718" r="2.5" opacity="0.72"/>
+          <circle cx="1060" cy="404" r="2"   opacity="0.60"/>
+          <circle cx="1120" cy="438" r="2"   opacity="0.60"/>
+          <circle cx="940"  cy="404" r="2"   opacity="0.60"/>
+          <circle cx="1000" cy="438" r="2"   opacity="0.60"/>
+          <circle cx="1060" cy="472" r="2"   opacity="0.60"/>
+          <circle cx="940"  cy="472" r="2"   opacity="0.55"/>
+          <circle cx="1000" cy="506" r="2"   opacity="0.55"/>
+          <circle cx="1120" cy="506" r="2"   opacity="0.55"/>
+        </g>
+
+        <!-- Perspective floor grid (VP at 720,300) -->
+        <g stroke="#b9ac6e" stroke-width="0.6" opacity="0.10" fill="none">
+          <line x1="80"  y1="830" x2="1360" y2="830"/>
+          <line x1="220" y1="790" x2="1220" y2="790"/>
+          <line x1="360" y1="750" x2="1080" y2="750"/>
+          <line x1="470" y1="720" x2="970"  y2="720"/>
+          <line x1="720" y1="300" x2="0"    y2="900"/>
+          <line x1="720" y1="300" x2="144"  y2="900"/>
+          <line x1="720" y1="300" x2="288"  y2="900"/>
+          <line x1="720" y1="300" x2="432"  y2="900"/>
+          <line x1="720" y1="300" x2="576"  y2="900"/>
+          <line x1="720" y1="300" x2="720"  y2="900"/>
+          <line x1="720" y1="300" x2="864"  y2="900"/>
+          <line x1="720" y1="300" x2="1008" y2="900"/>
+          <line x1="720" y1="300" x2="1152" y2="900"/>
+          <line x1="720" y1="300" x2="1296" y2="900"/>
+          <line x1="720" y1="300" x2="1440" y2="900"/>
+        </g>
+
+        <!-- Architectural corner marks -->
+        <g stroke="#b9ac6e" stroke-width="1.4" opacity="0.45" fill="none">
+          <path d="M 30 65 L 30 30 L 65 30"/>
+          <path d="M 1410 65 L 1410 30 L 1375 30"/>
+          <path d="M 30 835 L 30 870 L 65 870"/>
+          <path d="M 1410 835 L 1410 870 L 1375 870"/>
+        </g>
+      </svg>
+    </div>
+    <div class="hero-glow"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <p class="hero-label">Chennai · Tamil Nadu · Est. 2015</p>
+      <h2 class="hero-brand">Space Frame <span>Architects</span></h2>
       <h1 class="hero-title">Build Your Dream Home Better from <br/>Concept to Completion.</h1>
-      <p class="hero-subtitle">Construction , Architecture &amp; Interior Design Studio — Chennai, Tamil Nadu</p>
+      <p class="hero-subtitle">Construction · Architecture · Interior Design Studio</p>
       <div class="hero-btns">
         <a href="#projects" class="btn-primary">Explore Our Work</a>
         <a href="#contact"  class="btn-outline">Get In Touch</a>
@@ -1329,8 +1583,11 @@ footer { background: var(--clr-dark); padding: 66px 60px 32px; border-top: 3px s
 
 /* ── HERO PARALLAX ───────────────────────────────────────────────── */
 (function(){
-  var bg=document.querySelector('.hero-bg'),h=window.innerHeight;
-  window.addEventListener('scroll',function(){if(window.scrollY<h)bg.style.transform='scale(1.08) translateY('+(window.scrollY*0.28)+'px)';},{passive:true});
+  var geo=document.querySelector('.hero-geo'),h=window.innerHeight;
+  if(!geo)return;
+  window.addEventListener('scroll',function(){
+    if(window.scrollY<h)geo.style.transform='translateY('+(window.scrollY*0.14)+'px)';
+  },{passive:true});
 })();
 </script>
 </body>
