@@ -12,6 +12,7 @@
   --ff-heading: 'Cormorant Garamond', serif;
   --ff-body:    'DM Sans', sans-serif;
   --ff-label:   'Josefin Sans', sans-serif;
+  --ff-num:   'DM Sans', sans-serif;
   --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   --shadow-soft: 0 8px 40px rgba(28,28,28,0.08);
   --shadow-card: 0 4px 24px rgba(28,28,28,0.1);
@@ -38,7 +39,7 @@ select          { cursor: pointer; }
 /* ─── SPLASH SCREEN ──────────────────────────────────────────────── */
 #splash {
   position: fixed; inset: 0;
-  background: var(--clr-dark);
+  background: var(--clr-bg);
   display: flex; align-items: center; justify-content: center;
   z-index: 9999;
   transition: opacity 0.8s ease, transform 0.8s ease;
@@ -352,7 +353,7 @@ section { padding: 96px 60px; }
 .stat-item { padding: 30px 18px; text-align: center; border-right: 1px solid rgba(185,172,110,0.22); background: var(--clr-white); transition: background var(--transition); }
 .stat-item:last-child { border-right: none; }
 .stat-item:hover { background: rgba(185,172,110,0.06); }
-.stat-num { font-family: var(--ff-heading); font-size: 44px; font-weight: 300; color: var(--clr-dark); line-height: 1; }
+.stat-num { font-family: var(--ff-num); font-size: 44px; font-weight: 300; color: var(--clr-dark); line-height: 1; }
 .stat-suffix { font-size: 24px; color: var(--clr-primary); }
 .stat-label { font-family: var(--ff-label); font-size: 9.5px; letter-spacing: 0.17em; text-transform: uppercase; color: var(--clr-muted); margin-top: 7px; line-height: 1.4; }
 
@@ -701,3 +702,14 @@ footer { background: var(--clr-dark); padding: 66px 60px 32px; border-top: 3px s
   .footer-grid  { gap: 22px; }
   .footer-bottom p { font-size: 10.5px; }
 }
+.draw {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: lineDraw 1s ease forwards;
+    }
+    @keyframes lineDraw {
+      to { stroke-dashoffset: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .draw { animation: none; stroke-dashoffset: 0; }
+    }
