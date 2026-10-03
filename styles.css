@@ -714,30 +714,24 @@ footer { background: var(--clr-dark); padding: 66px 60px 32px; border-top: 3px s
       .draw { animation: none; stroke-dashoffset: 0; }
     }
 
-    .splash-tagline { font-size:clamp(16px, 3.5vw, 22px); letter-spacing:.04em; color:#2b2f36; line-height:1.6; }
-  .line { display:inline-block; overflow:hidden; vertical-align:top; }
-  .line-inner {
-    display:inline-block;
-    transform:translateY(110%);
-    opacity:0;
-    letter-spacing:.14em;
-    animation:textRise .9s cubic-bezier(.22,.9,.3,1) forwards;
-  }
-  .line-inner.gold { color:#a68a1f; font-weight:600; }
-  @keyframes textRise {
-    to { transform:translateY(0); opacity:1; letter-spacing:.04em; }
-  }
+.splash-tagline { font-size: clamp(16px, 3.5vw, 22px); color: #2b2f36; line-height: 1.6; }
+.line { display: inline-block; overflow: hidden; vertical-align: top; }
+.line-inner {
+  display: inline-block; transform: translateY(110%); opacity: 0;
+  letter-spacing: .14em;
+  animation: textRise .9s cubic-bezier(.22,.9,.3,1) forwards;
+}
+.line-inner.gold { color: #a68a1f; font-weight: 600; }
+@keyframes textRise { to { transform: translateY(0); opacity: 1; letter-spacing: .04em; } }
 
-  /* Gold underline draws from center */
-  .tagline-rule {
-    display:block; height:1.5px; width:80px; margin:14px auto 0;
-    background:#a68a1f; transform:scaleX(0); transform-origin:center;
-    animation:ruleGrow .8s ease 3.5s forwards;
-  }
-  @keyframes ruleGrow { to { transform:scaleX(1); } }
+.tagline-rule {
+  display: block; height: 1.5px; width: 80px; margin: 14px auto 0;
+  background: #a68a1f; transform: scaleX(0); transform-origin: center;
+  animation: ruleGrow .8s ease 1.4s forwards;
+}
+@keyframes ruleGrow { to { transform: scaleX(1); } }
 
-  @media (prefers-reduced-motion: reduce) {
-    .draw { animation:none; stroke-dashoffset:0; }
-    .line-inner { animation:none; transform:none; opacity:1; letter-spacing:.04em; }
-    .tagline-rule { animation:none; transform:scaleX(1); }
-  }
+@media (prefers-reduced-motion: reduce) {
+  .line-inner { animation: none; transform: none; opacity: 1; letter-spacing: .04em; }
+  .tagline-rule { animation: none; transform: scaleX(1); }
+}
