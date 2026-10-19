@@ -101,7 +101,7 @@ select          { cursor: pointer; }
 }
 /* Logo */
 .nav-logo { display: flex; align-items: center; gap: 10px; }
-.nav-logo svg { width: 34px; height: 34px; flex-shrink: 0; }
+.nav-logo svg { width: 60px; height: 60px; flex-shrink: 0; }
 .nav-logo .logo-text { display: flex; flex-direction: column; line-height: 1.15; }
 .nav-logo .logo-text .lt-main {
   font-family: var(--ff-heading); font-size: 15px;
@@ -669,7 +669,7 @@ footer { background: var(--clr-dark); padding: 66px 60px 32px; border-top: 3px s
   /* Navbar trim */
   .nav-logo .logo-text .lt-main { font-size: 13px; letter-spacing: 0.07em; }
   .nav-logo .logo-text .lt-sub  { font-size: 7px; letter-spacing: 0.22em; }
-  .nav-logo svg { width: 28px; height: 28px; }
+  .nav-logo svg { width: 60px; height: 60px; }
 
   /* Hero */
   .hero-brand    { font-size: clamp(28px, 9vw, 44px); letter-spacing: 0.04em; }
